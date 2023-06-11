@@ -1,0 +1,57 @@
+- name: install nvim
+  hosts: all
+  become: true
+  become_method: sudo
+  vars:
+    nvim_url: https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+
+  tasks:
+    - name: remove /tmp/nvim
+      file:
+        path: /tmp/nvim
+        state: absent
+
+    - name: create dir /tmp/nvim
+      file:
+        path: /tmp/nvim
+        state: directory
+
+    - name: download and unarchive nvim
+      unarchive:
+        src: "{{ nvim_url }}"
+        remote_src: true
+        dest: /tmp/nvim
+
+    - name: remove /opt/nvim
+      file:
+        path: /opt/nvim
+        state: absent
+
+    - name: move nvim to /opt/nvim
+      shell: mv /tmp/nvim/* /opt/nvim
+
+    - name: remove /tmp/nvim
+      file:
+        path: /tmp/nvim
+        state: absent
+
+    - name: create link /usr/bin/nvim
+      file:
+        src: /opt/nvim/bin/nvim
+        path: /usr/bin/nvim
+        state: link
+        force: true
+
+    - name: create link /usr/bin/vim
+      file:
+        src: /usr/bin/nvim
+        path: /usr/bin/vim
+        state: link
+        force: true
+
+    - name: create link /usr/bin/vi
+      file:
+        src: /usr/bin/nvim
+        path: /usr/bin/vi
+        state: link
+        force: true

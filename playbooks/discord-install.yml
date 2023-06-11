@@ -1,0 +1,43 @@
+- name: install discord
+  hosts: all
+  become: true
+  become_method: sudo
+  vars:
+    discord_url: https://discord.com/api/download?platform=linux&format=tar.gz
+
+  tasks:
+    - name: remove /tmp/discord
+      file:
+        path: /tmp/discord
+        state: absent
+
+    - name: create dir /tmp/discord
+      file:
+        path: /tmp/discord
+        state: directory
+
+    - name: download and unarchive discord
+      unarchive:
+        src: "{{ discord_url }}"
+        remote_src: true
+        dest: /tmp/discord
+
+    - name: remove /opt/discord
+      file:
+        path: /opt/discord
+        state: absent
+
+    - name: move discord to /opt/discord
+      shell: mv /tmp/discord/* /opt/discord
+
+    - name: remove /tmp/discord
+      file:
+        path: /tmp/discord
+        state: absent
+
+    - name: create link /usr/bin/discord
+      file:
+        src: /opt/discord/Discord
+        path: /usr/bin/discord
+        state: link
+        force: true

@@ -1,0 +1,57 @@
+- name: install llvm
+  hosts: all
+  become: true
+  become_method: sudo
+  vars:
+    llvm_url: https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.0/clang+llvm-16.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+
+  tasks:
+    - name: remove /tmp/llvm
+      file:
+        path: /tmp/llvm
+        state: absent
+
+    - name: create dir /tmp/llvm
+      file:
+        path: /tmp/llvm
+        state: directory
+
+    - name: download and unarchive llvm
+      unarchive:
+        src: "{{ llvm_url }}"
+        remote_src: true
+        dest: /tmp/llvm
+
+    - name: remove /opt/llvm
+      file:
+        path: /opt/llvm
+        state: absent
+
+    - name: move llvm to /opt/llvm
+      shell: mv /tmp/llvm/* /opt/llvm
+
+    - name: remove /tmp/llvm
+      file:
+        path: /tmp/llvm
+        state: absent
+
+    - name: create link /usr/bin/clang
+      file:
+        src: /opt/llvm/bin/clang
+        path: /usr/bin/clang
+        state: link
+        force: true
+
+    - name: create link /usr/bin/clang++
+      file:
+        src: /opt/llvm/bin/clang++
+        path: /usr/bin/clang++
+        state: link
+        force: true
+
+    - name: create link /usr/bin/clangd
+      file:
+        src: /opt/llvm/bin/clangd
+        path: /usr/bin/clangd
+        state: link
+        force: true

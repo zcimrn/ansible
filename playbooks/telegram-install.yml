@@ -1,0 +1,43 @@
+- name: install telegram
+  hosts: all
+  become: true
+  become_method: sudo
+  vars:
+    telegram_url: https://telegram.org/dl/desktop/linux
+
+  tasks:
+    - name: remove /tmp/telegram
+      file:
+        path: /tmp/telegram
+        state: absent
+
+    - name: create dir /tmp/telegram
+      file:
+        path: /tmp/telegram
+        state: directory
+
+    - name: download and unarchive telegram
+      unarchive:
+        src: "{{ telegram_url }}"
+        remote_src: true
+        dest: /tmp/telegram
+
+    - name: remove /opt/telegram
+      file:
+        path: /opt/telegram
+        state: absent
+
+    - name: move telegram to /opt/telegram
+      shell: mv /tmp/telegram/* /opt/telegram
+
+    - name: remove /tmp/telegram
+      file:
+        path: /tmp/telegram
+        state: absent
+
+    - name: create link /usr/bin/telegram
+      file:
+        src: /opt/telegram/Telegram
+        path: /usr/bin/telegram
+        state: link
+        force: true
