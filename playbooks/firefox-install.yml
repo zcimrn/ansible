@@ -1,0 +1,43 @@
+- name: install firefox
+  hosts: all
+  become: true
+  become_method: sudo
+  vars:
+    firefox_url: https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US
+
+  tasks:
+    - name: remove /tmp/firefox
+      file:
+        path: /tmp/firefox
+        state: absent
+
+    - name: create dir /tmp/firefox
+      file:
+        path: /tmp/firefox
+        state: directory
+
+    - name: download and unarchive firefox
+      unarchive:
+        src: "{{ firefox_url }}"
+        remote_src: true
+        dest: /tmp/firefox
+
+    - name: remove /opt/firefox
+      file:
+        path: /opt/firefox
+        state: absent
+
+    - name: move firefox to /opt/firefox
+      shell: mv /tmp/firefox/* /opt/firefox
+
+    - name: remove /tmp/firefox
+      file:
+        path: /tmp/firefox
+        state: absent
+
+    - name: create link /usr/bin/firefox
+      file:
+        src: /opt/firefox/firefox
+        path: /usr/bin/firefox
+        state: link
+        force: true
