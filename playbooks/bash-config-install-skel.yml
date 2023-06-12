@@ -1,0 +1,27 @@
+- name: bash config install skel
+  hosts: all
+  become: true
+  become_method: sudo
+  tasks:
+  - name: copy .bashrc
+    copy:
+      src: ../files/.bashrc
+      dest: /etc/skel/.bashrc
+      mode: 0600
+
+  - name: copy .bash_profile
+    copy:
+      src: ../files/.bash_profile
+      dest: /etc/skel/.bash_profile
+      mode: 0600
+
+  - name: copy .bash_logout
+    copy:
+      src: ../files/.bash_logout
+      dest: /etc/skel/.bash_logout
+      mode: 0600
+
+  - name: remove .profile
+    file:
+      path: /etc/skel/.profile
+      state: absent

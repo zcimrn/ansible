@@ -1,0 +1,27 @@
+- name: bash config install root
+  hosts: all
+  become: true
+  become_method: sudo
+  tasks:
+  - name: copy .bashrc
+    copy:
+      src: ../files/.bashrc-root
+      dest: ~/.bashrc
+      mode: 0600
+
+  - name: copy .bash_profile
+    copy:
+      src: ../files/.bash_profile
+      dest: ~/.bash_profile
+      mode: 0600
+
+  - name: copy .bash_logout
+    copy:
+      src: ../files/.bash_logout
+      dest: ~/.bash_logout
+      mode: 0600
+
+  - name: remove .profile
+    file:
+      path: ~/.profile
+      state: absent
