@@ -3,7 +3,7 @@
   become: true
   become_method: sudo
   vars:
-    llvm_url: https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.0/clang+llvm-16.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+    url: https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.4/clang+llvm-16.0.4-x86_64-linux-gnu-ubuntu-22.04.tar.xz
 
   tasks:
     - name: remove /tmp/llvm
@@ -18,7 +18,7 @@
 
     - name: download and unarchive llvm
       unarchive:
-        src: "{{ llvm_url }}"
+        src: "{{ url }}"
         remote_src: true
         dest: /tmp/llvm
 
@@ -53,5 +53,12 @@
       file:
         src: /opt/llvm/bin/clangd
         path: /usr/bin/clangd
+        state: link
+        force: true
+
+    - name: create link /usr/bin/clang-format
+      file:
+        src: /opt/llvm/bin/clang-format
+        path: /usr/bin/clang-format
         state: link
         force: true
