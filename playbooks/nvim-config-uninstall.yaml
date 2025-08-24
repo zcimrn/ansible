@@ -1,0 +1,8 @@
+  - name: uninstall nvim config
+    hosts: all
+    gather_facts: false
+    tasks:
+      - name: remove ~/.config/nvim
+        file:
+            path: ~/.config/nvim
+            state: absent

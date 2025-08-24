@@ -1,0 +1,25 @@
+  - name: uninstall nvim
+    hosts: all
+    gather_facts: false
+    become: true
+    become_method: sudo
+    tasks:
+      - name: remove /usr/bin/vim
+        file:
+            path: /usr/bin/vim
+            state: absent
+
+      - name: remove /usr/bin/vi
+        file:
+            path: /usr/bin/vi
+            state: absent
+
+      - name: remove /usr/bin/nvim
+        file:
+            path: /usr/bin/nvim
+            state: absent
+
+      - name: remove /opt/nvim
+        file:
+            path: /opt/nvim
+            state: absent
