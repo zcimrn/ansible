@@ -1,13 +1,11 @@
+  - import_playbook: tmux-uninstall.yaml
+
   - name: install tmux
     hosts: all
+    gather_facts: false
     become: true
     become_method: sudo
     tasks:
-      - name: remove /opt/tmux
-        file:
-            path: /opt/tmux
-            state: absent
-
       - name: create dir /opt/tmux
         file:
             path: /opt/tmux
@@ -24,3 +22,10 @@
             src: /opt/tmux/tmux.appimage
             path: /usr/bin/tmux
             state: link
+
+      - name: copy tmux.conf to /etc/tmux.conf
+        copy:
+            src: ../files/tmux.conf
+            dest: /etc/tmux.conf
+            mode: '0644'
+

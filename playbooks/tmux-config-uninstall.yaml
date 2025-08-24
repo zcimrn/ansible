@@ -1,9 +1,0 @@
-  - name: uninstall tmux config
-    hosts: all
-    become: true
-    become_method: sudo
-    tasks:
-      - name: remove /etc/tmux.conf
-        file:
-            path: /etc/tmux.conf
-            state: absent
