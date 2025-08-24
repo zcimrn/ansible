@@ -1,7 +1,5 @@
   - import_playbook: nvim-config-uninstall.yaml
 
-  - import_playbook: nvim-data-clear.yaml
-
   - name: install nvim config
     hosts: all
     gather_facts: false
