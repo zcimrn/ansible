@@ -1,0 +1,26 @@
+  - name: install tmux
+    hosts: all
+    become: true
+    become_method: sudo
+    tasks:
+      - name: remove /opt/tmux
+        file:
+            path: /opt/tmux
+            state: absent
+
+      - name: create dir /opt/tmux
+        file:
+            path: /opt/tmux
+            state: directory
+
+      - name: download tmux.appimage
+        get_url:
+            url: https://github.com/nelsonenzo/tmux-appimage/releases/download/3.5a/tmux.appimage
+            dest: /opt/tmux
+            mode: '0755'
+
+      - name: create link /usr/bin/tmux
+        file:
+            src: /opt/tmux/tmux.appimage
+            path: /usr/bin/tmux
+            state: link

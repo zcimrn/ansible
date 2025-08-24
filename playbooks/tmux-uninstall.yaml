@@ -1,0 +1,14 @@
+  - name: uninstall tmux
+    hosts: all
+    become: true
+    become_method: sudo
+    tasks:
+      - name: remove /usr/bin/tmux
+        file:
+            path: /usr/bin/tmux
+            state: absent
+
+      - name: remove /opt/tmux
+        file:
+            path: /opt/tmux
+            state: absent
