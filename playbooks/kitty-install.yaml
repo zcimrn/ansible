@@ -1,0 +1,33 @@
+  - name: install kitty
+    hosts: all
+    gather_facts: false
+    become: true
+    become_method: sudo
+    tasks:
+      - name: remove /opt/kitty
+        file:
+            path: /opt/kitty
+            state: absent
+
+      - name: create dir /opt/kitty
+        file:
+            path: /opt/kitty
+            state: directory
+
+      - name: download and unarchive kitty
+        unarchive:
+            src: https://github.com/kovidgoyal/kitty/releases/download/nightly/kitty-nightly-x86_64.txz
+            remote_src: true
+            dest: /opt/kitty
+
+      - name: create link /usr/bin/kitty -> /opt/kitty/bin/kitty
+        file:
+            src: /opt/kitty/bin/kitty
+            path: /usr/bin/kitty
+            state: link
+
+      - name: create link /usr/bin/kitten -> /opt/kitty/bin/kitten
+        file:
+            src: /opt/kitty/bin/kitten
+            path: /usr/bin/kitten
+            state: link

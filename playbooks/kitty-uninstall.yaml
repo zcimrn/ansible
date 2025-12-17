@@ -1,0 +1,20 @@
+  - name: uninstall kitty
+    hosts: all
+    gather_facts: false
+    become: true
+    become_method: sudo
+    tasks:
+      - name: remove /usr/bin/kitty
+        file:
+            path: /usr/bin/kitty
+            state: absent
+
+      - name: remove /usr/bin/kitten
+        file:
+            path: /usr/bin/kitten
+            state: absent
+
+      - name: remove /opt/kitty
+        file:
+            path: /opt/kitty
+            state: absent
