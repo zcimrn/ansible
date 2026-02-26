@@ -1,0 +1,5 @@
+- import_playbook: bash-config-install.yaml
+
+- import_playbook: bash-config-install-root.yaml
+
+- import_playbook: bash-config-install-skel.yaml
