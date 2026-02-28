@@ -1,31 +1,5 @@
-  - import_playbook: tmux-uninstall.yaml
-
-  - name: install tmux
-    hosts: all
-    gather_facts: false
-    become: true
-    become_method: sudo
-    tasks:
-      - name: create dir /opt/tmux
-        file:
-            path: /opt/tmux
-            state: directory
-
-      - name: download tmux.appimage
-        get_url:
-            url: https://github.com/nelsonenzo/tmux-appimage/releases/download/3.5a/tmux.appimage
-            dest: /opt/tmux
-            mode: '0755'
-
-      - name: create link /usr/bin/tmux
-        file:
-            src: /opt/tmux/tmux.appimage
-            path: /usr/bin/tmux
-            state: link
-
-      - name: copy tmux.conf to /etc/tmux.conf
-        copy:
-            src: ../files/tmux.conf
-            dest: /etc/tmux.conf
-            mode: '0644'
-
+- name: install tmux
+  hosts: all
+  gather_facts: false
+  tasks:
+    - import_tasks: ../tasks/tmux-install.yaml

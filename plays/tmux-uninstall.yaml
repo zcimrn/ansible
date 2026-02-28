@@ -1,20 +1,5 @@
-  - name: uninstall tmux
-    hosts: all
-    gather_facts: false
-    become: true
-    become_method: sudo
-    tasks:
-      - name: remove /etc/tmux.conf
-        file:
-            path: /etc/tmux.conf
-            state: absent
-
-      - name: remove /usr/bin/tmux
-        file:
-            path: /usr/bin/tmux
-            state: absent
-
-      - name: remove /opt/tmux
-        file:
-            path: /opt/tmux
-            state: absent
+- name: uninstall tmux
+  hosts: all
+  gather_facts: false
+  tasks:
+    - import_tasks: ../tasks/tmux-uninstall.yaml
