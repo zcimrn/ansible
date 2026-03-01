@@ -1,49 +1,5 @@
-  - import_playbook: nvim-uninstall.yaml
-
-  - name: install nvim
-    hosts: all
-    gather_facts: false
-    become: true
-    become_method: sudo
-    tasks:
-      - name: remove /tmp/nvim
-        file:
-            path: /tmp/nvim
-            state: absent
-
-      - name: create dir /tmp/nvim
-        file:
-            path: /tmp/nvim
-            state: directory
-
-      - name: download and unarchive nvim
-        unarchive:
-            src: https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
-            remote_src: true
-            dest: /tmp/nvim
-
-      - name: move /tmp/nvim/nvim-linux-x86_64 to /opt/nvim
-        shell: mv /tmp/nvim/nvim-linux-x86_64 /opt/nvim
-
-      - name: remove /tmp/nvim
-        file:
-            path: /tmp/nvim
-            state: absent
-
-      - name: create link /usr/bin/nvim -> /opt/nvim/bin/nvim
-        file:
-            src: /opt/nvim/bin/nvim
-            path: /usr/bin/nvim
-            state: link
-
-      - name: create link /usr/bin/vim -> /usr/bin/nvim
-        file:
-            src: /usr/bin/nvim
-            path: /usr/bin/vim
-            state: link
-
-      - name: create link /usr/bin/vi -> /usr/bin/nvim
-        file:
-            src: /usr/bin/nvim
-            path: /usr/bin/vi
-            state: link
+- name: install nvim
+  hosts: all
+  gather_facts: false
+  tasks:
+    - import_tasks: ../tasks/nvim-install.yaml

@@ -1,0 +1,14 @@
+- name: remove ~/.local/share/nvim
+  file:
+    path: ~/.local/share/nvim
+    state: absent
+
+- name: remove ~/.local/state/nvim
+  file:
+    path: ~/.local/state/nvim
+    state: absent
+
+- name: remove ~/.cache/nvim
+  file:
+    path: ~/.cache/nvim
+    state: absent

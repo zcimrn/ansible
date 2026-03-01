@@ -1,10 +1,5 @@
-  - import_playbook: nvim-config-uninstall.yaml
-
-  - name: install nvim config
-    hosts: all
-    gather_facts: false
-    tasks:
-      - name: clone zcimrn/nvim to ~/.config/nvim
-        git:
-            repo: https://github.com/zcimrn/nvim
-            dest: ~/.config/nvim
+- name: install nvim config
+  hosts: all
+  gather_facts: false
+  tasks:
+    - import_tasks: ../tasks/nvim-config-install.yaml

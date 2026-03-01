@@ -1,0 +1,4 @@
+- name: clone zcimrn/nvim to ~/.config/nvim
+  git:
+    repo: https://github.com/zcimrn/nvim
+    dest: ~/.config/nvim

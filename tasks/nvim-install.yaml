@@ -1,0 +1,49 @@
+- name: remove /tmp/nvim
+  become: true
+  file:
+    path: /tmp/nvim
+    state: absent
+
+- name: create dir /tmp/nvim
+  file:
+    path: /tmp/nvim
+    state: directory
+
+- name: download and unarchive nvim
+  unarchive:
+    src: https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz
+    remote_src: true
+    dest: /tmp/nvim
+
+- name: copy /tmp/nvim/nvim-linux-x86_64 to /opt/nvim
+  become: true
+  copy:
+    src: /tmp/nvim/nvim-linux-x86_64/
+    remote_src: true
+    dest: /opt/nvim
+
+- name: remove /tmp/nvim
+  file:
+    path: /tmp/nvim
+    state: absent
+
+- name: create link /usr/local/bin/nvim -> /opt/nvim/bin/nvim
+  become: true
+  file:
+    src: /opt/nvim/bin/nvim
+    path: /usr/local/bin/nvim
+    state: link
+
+- name: create link /usr/local/bin/vim -> /usr/local/bin/nvim
+  become: true
+  file:
+    src: /usr/local/bin/nvim
+    path: /usr/local/bin/vim
+    state: link
+
+- name: create link /usr/local/bin/vi -> /usr/local/bin/nvim
+  become: true
+  file:
+    src: /usr/local/bin/nvim
+    path: /usr/local/bin/vi
+    state: link

@@ -1,0 +1,23 @@
+- name: remove /usr/local/bin/vim
+  become: true
+  file:
+    path: /usr/local/bin/vim
+    state: absent
+
+- name: remove /usr/local/bin/vi
+  become: true
+  file:
+    path: /usr/local/bin/vi
+    state: absent
+
+- name: remove /usr/local/bin/nvim
+  become: true
+  file:
+    path: /usr/local/bin/nvim
+    state: absent
+
+- name: remove /opt/nvim
+  become: true
+  file:
+    path: /opt/nvim
+    state: absent
