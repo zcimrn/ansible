@@ -1,4 +1,4 @@
-  - name: install kitty
+  - name: kitty install
     hosts: all
     gather_facts: false
     become: true
@@ -20,14 +20,14 @@
             remote_src: true
             dest: /opt/kitty
 
-      - name: create link /usr/bin/kitty -> /opt/kitty/bin/kitty
+      - name: create link /usr/local/bin/kitty -> /opt/kitty/bin/kitty
         file:
             src: /opt/kitty/bin/kitty
-            path: /usr/bin/kitty
+            path: /usr/local/bin/kitty
             state: link
 
-      - name: create link /usr/bin/kitten -> /opt/kitty/bin/kitten
+      - name: create link /usr/local/bin/kitten -> /opt/kitty/bin/kitten
         file:
             src: /opt/kitty/bin/kitten
-            path: /usr/bin/kitten
+            path: /usr/local/bin/kitten
             state: link
