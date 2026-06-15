@@ -1,0 +1,10 @@
+- name: tmux config install
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: copy tmux.conf to /etc/tmux.conf
+      become: true
+      copy:
+        src: ../files/tmux.conf
+        dest: /etc/tmux.conf
+        mode: "0644"

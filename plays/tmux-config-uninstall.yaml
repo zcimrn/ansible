@@ -1,0 +1,9 @@
+- name: tmux config uninstall
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: remove /etc/tmux.conf
+      become: true
+      file:
+        path: /etc/tmux.conf
+        state: absent
