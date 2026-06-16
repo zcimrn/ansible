@@ -1,5 +1,9 @@
-- name: uninstall tmux
+- name: tmux uninstall
   hosts: all
   gather_facts: false
   tasks:
-    - import_tasks: ../tasks/tmux-uninstall.yaml
+    - name: remove /usr/local/bin/tmux
+      become: true
+      file:
+        path: /usr/local/bin/tmux
+        state: absent

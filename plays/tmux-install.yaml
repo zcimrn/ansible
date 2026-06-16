@@ -1,5 +1,26 @@
-- name: install tmux
+- name: tmux install
   hosts: all
   gather_facts: false
   tasks:
-    - import_tasks: ../tasks/tmux-install.yaml
+    - name: create temp dir
+      tempfile:
+        state: directory
+      register: temp_dir
+
+    - name: download and unarchive tmux
+      unarchive:
+        remote_src: true
+        src: https://github.com/tmux/tmux-builds/releases/download/v3.6b/tmux-3.6b-linux-x86_64.tar.gz
+        dest: "{{ temp_dir.path }}"
+
+    - name: copy tmux to /usr/bin/local/tmux
+      become: true
+      copy:
+        src: "{{ temp_dir.path }}/tmux"
+        dest: /usr/local/bin/tmux
+        mode: "0755"
+
+    - name: remove temp dir
+      file:
+        path: "{{ temp_dir.path }}"
+        state: absent
