@@ -16,6 +16,7 @@
     - name: copy tmux to /usr/bin/local/tmux
       become: true
       copy:
+        remote_src: true
         src: "{{ temp_dir.path }}/tmux"
         dest: /usr/local/bin/tmux
         mode: "0755"
