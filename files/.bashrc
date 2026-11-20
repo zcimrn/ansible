@@ -1,17 +1,21 @@
-[[ $- != *i* ]] && return
+[[ "$-" != *i* ]] && return
 
 PS1="\[\e[1;32m\]\u\[\e[0m\]\[\e[1m\]@\[\e[1;32m\]\H\[\e[0m\]\[\e[1m\]:\[\e[1;34m\]\w\[\e[0m\]\n\$ "
 
-alias ls="ls --color"
-alias grep="grep --color"
-alias diff="diff --color"
+[[ -f "$HOME/.nvm/nvm.sh" ]] && . "$HOME/.nvm/nvm.sh"
+[[ -f "$HOME/.nvm/bash_completion" ]] && . "$HOME/.nvm/bash_completion"
 
-[[ $SHLVL != 1 ]] && return
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 
-export PATH=$HOME/.local/bin:$PATH
+OLD_PATH="$PATH"
+PATH="$HOME/.local/bin:$HOME/.opencode/bin"
+while read -rd : x; do
+    [[ "$x" = "$HOME/.local/bin" ]] && continue
+    [[ "$x" = "$HOME/.opencode/bin" ]] && continue
+    PATH="$PATH:$x"
+done <<< "$OLD_PATH:"
+unset OLD_PATH
 
-export NVM_DIR=$HOME/.nvm
-[[ -f $NVM_DIR/nvm.sh ]] && . $NVM_DIR/nvm.sh
-[[ -f $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion
-
-[[ -f $HOME/.cargo/env ]] && . $HOME/.cargo/env
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias diff='diff --color=auto'
